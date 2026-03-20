@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MantraMitra – Mala Bead Meditation Counter</title>
   <meta name="description" content="Count your mantras with beautiful interactive mala beads. No ads, no subscriptions — just mindful practice.">
+  <link rel="alternate" hreflang="en" href="index.html">
+  <link rel="alternate" hreflang="uk" href="uk.html">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -217,6 +219,16 @@
       margin-top: 8px;
     }
 
+    /* ── Lang picker ── */
+    .lang-picker {
+      border-left: 1px solid rgba(255,255,255,0.12);
+      padding-left: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .lang-picker .lang-active { color: var(--accent); }
+    .lang-picker a { font-size: 13px; }
+
     /* ── Responsive ── */
     @media (max-width: 500px) {
       .section { padding: 28px 20px; }
@@ -236,6 +248,7 @@
       <ul class="nav-links">
         <li><a href="#privacy">Privacy</a></li>
         <li><a href="#support">Support</a></li>
+        <li class="lang-picker"><span class="lang-active">EN</span> / <a href="uk.html">UK</a></li>
       </ul>
     </div>
   </nav>

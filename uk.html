@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MantraMitra – Лічильник медитацій з чотками мала</title>
+  <meta name="description" content="Рахуйте мантри з красивими інтерактивними чотками мала. Без реклами, без підписок — лише усвідомлена практика.">
+  <link rel="alternate" hreflang="en" href="index.html">
+  <link rel="alternate" hreflang="uk" href="uk.html">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:       #8AB0E6;
+      --accent-dim:   rgba(138, 176, 230, 0.15);
+      --accent-border:rgba(138, 176, 230, 0.30);
+      --bg:           #0a0a0a;
+      --surface:      #141414;
+      --surface2:     #1c1c1e;
+      --text:         #f0f0f0;
+      --text-sec:     rgba(240,240,240,0.55);
+      --radius:       18px;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-sec);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── Lang picker ── */
+    .lang-picker {
+      border-left: 1px solid rgba(255,255,255,0.12);
+      padding-left: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .lang-picker .lang-active { color: var(--accent); }
+    .lang-picker a { font-size: 13px; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-sec);
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    /* ── Phone mockup ── */
+    .phone-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0 60px;
+    }
+    .phone-frame {
+      position: relative;
+      width: 230px;
+    }
+    .phone-frame img {
+      width: 100%;
+      border-radius: 42px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 24px 80px rgba(0,0,0,0.7),
+        0 0 60px rgba(138,176,230,0.08);
+      display: block;
+    }
+
+    /* ── Section card ── */
+    .section {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section h2 .icon {
+      font-size: 20px;
+    }
+    .section h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 24px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 12px;
+    }
+    .section p {
+      color: var(--text-sec);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul {
+      color: var(--text-sec);
+      font-size: 15px;
+      padding-left: 20px;
+    }
+    .section ul li { margin-bottom: 6px; }
+
+    /* ── Contact ── */
+    .contact-block {
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 20px;
+    }
+    .contact-block p {
+      color: var(--text-sec);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .contact-block p:last-child { margin-bottom: 0; }
+    .contact-block a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .contact-block a:hover { text-decoration: underline; }
+
+    /* ── Divider ── */
+    hr.section-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 28px 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-sec);
+      font-size: 13px;
+    }
+    footer a {
+      color: var(--text-sec);
+      text-decoration: none;
+    }
+    footer a:hover { color: var(--accent); }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 8px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      .section { padding: 28px 20px; }
+      .hero { padding: 56px 0 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <a class="nav-brand" href="#">
+        <img class="nav-icon" src="AppIcon.png" alt="MantraMitra icon">
+        MantraMitra
+      </a>
+      <ul class="nav-links">
+        <li><a href="#privacy">Конфіденційність</a></li>
+        <li><a href="#support">Підтримка</a></li>
+        <li class="lang-picker"><a href="index.html">EN</a> / <span class="lang-active">UK</span></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">Лічильник медитацій з чотками мала</p>
+      <h1>MantraMitra</h1>
+      <p class="hero-subtitle">Рахуйте мантри з красивими інтерактивними чотками мала. Без реклами, без підписок — лише усвідомлена практика.</p>
+
+      <!-- Screenshot -->
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <img src="screenshot.png" alt="MantraMitra — екран практики">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- Privacy Policy -->
+      <section class="section" id="privacy">
+        <h2><span class="icon">🔒</span> Політика конфіденційності</h2>
+        <p>Останнє оновлення: березень 2026</p>
+
+        <hr class="section-divider">
+
+        <h3>Загальний огляд</h3>
+        <p>MantraMitra розроблено з урахуванням конфіденційності. Застосунок працює повністю на вашому пристрої — без облікового запису, без сервера, без відстеження.</p>
+
+        <h3>Дані, які ми збираємо</h3>
+        <p>MantraMitra <strong style="color:var(--text);">не збирає жодних особистих даних.</strong> Зокрема:</p>
+        <ul>
+          <li>Жодних імен, адрес електронної пошти чи контактних даних</li>
+          <li>Жодних ідентифікаторів пристрою або рекламних ID</li>
+          <li>Жодних даних геолокації</li>
+          <li>Жодної аналітики використання чи звітів про збої, що надсилаються на сервер</li>
+          <li>Жодних сторонніх SDK або фреймворків аналітики</li>
+        </ul>
+
+        <h3>Дані, що зберігаються на вашому пристрої</h3>
+        <p>MantraMitra зберігає такі дані локально на вашому пристрої, використовуючи стандартні механізми зберігання Apple:</p>
+        <ul>
+          <li><strong style="color:var(--text);">Сесії медитацій</strong> — дата, тривалість і кількість намистин, що зберігаються лише на вашому пристрої</li>
+          <li><strong style="color:var(--text);">Налаштування</strong> — вибрана кількість намистин і стиль чоток, що зберігаються в UserDefaults</li>
+        </ul>
+        <p>Ці дані ніколи не покидають ваш пристрій і недоступні третім сторонам. Дані видаляються разом із застосунком.</p>
+
+        <h3>Резервне копіювання iCloud</h3>
+        <p>Ваша історія сесій може бути включена до стандартного резервного копіювання iCloud або iTunes, якщо ви ввімкнули резервне копіювання. Це цілком залежить від ваших налаштувань резервного копіювання iOS та від політики конфіденційності Apple — MantraMitra не виконує жодної синхронізації з iCloud самостійно.</p>
+
+        <h3>Сторонні сервіси</h3>
+        <p>MantraMitra не містить сторонніх SDK, рекламних мереж, аналітичних сервісів або інтеграцій із соціальними мережами.</p>
+
+        <h3>Конфіденційність дітей</h3>
+        <p>MantraMitra не збирає жодних даних від користувачів будь-якого віку.</p>
+
+        <h3>Зміни в цій політиці</h3>
+        <p>Якщо ця політика зміниться, оновлена версія буде опублікована за цією URL-адресою. Оскільки дані не збираються, будь-які майбутні зміни найімовірніше стосуватимуться лише незначних уточнень.</p>
+
+        <h3>Контакт</h3>
+        <p>Запитання щодо конфіденційності? Зв'яжіться з нами за адресою <a href="mailto:okalentiev@gmail.com" style="color:var(--accent);">okalentiev@gmail.com</a></p>
+      </section>
+
+      <!-- Support -->
+      <section class="section" id="support">
+        <h2><span class="icon">💬</span> Підтримка</h2>
+        <p>Виникли проблеми з MantraMitra або є пропозиції? Я радий почути від вас.</p>
+
+        <div class="contact-block">
+          <p>📧 Підтримка електронною поштою</p>
+          <p><a href="mailto:okalentiev@gmail.com">okalentiev@gmail.com</a></p>
+        </div>
+
+        <hr class="section-divider">
+
+        <h3>Поширені запитання</h3>
+
+        <h3 style="color:var(--text);font-size:14px;text-transform:none;letter-spacing:0;margin-top:16px;font-weight:600;">Як рахувати мантру?</h3>
+        <p>На екрані практики проведіть намистину вгору (або у вказаному напрямку), щоб зарахувати одне повторення. Ви відчуєте тактильний відгук, що підтверджує кожен рахунок.</p>
+
+        <h3 style="color:var(--text);font-size:14px;text-transform:none;letter-spacing:0;margin-top:16px;font-weight:600;">Як завершити сесію?</h3>
+        <p>Натисніть і утримуйте кнопку зупинки, доки вона не підтвердить завершення. Утримування кнопки як підтвердження запобігає випадковому завершенню сесії.</p>
+
+        <h3 style="color:var(--text);font-size:14px;text-transform:none;letter-spacing:0;margin-top:16px;font-weight:600;">Чи можна змінити кількість намистин?</h3>
+        <p>Так — відкрийте вкладку «Налаштування» і виберіть 27, 54, 108 або 216 намистин відповідно до ваших чоток.</p>
+
+        <h3 style="color:var(--text);font-size:14px;text-transform:none;letter-spacing:0;margin-top:16px;font-weight:600;">Де знайти історію сесій?</h3>
+        <p>Торкніться вкладки «Історія» (іконка діаграми) на екрані практики, щоб переглянути всі минулі сесії з тривалістю, кількістю намистин і датою.</p>
+
+        <h3 style="color:var(--text);font-size:14px;text-transform:none;letter-spacing:0;margin-top:16px;font-weight:600;">Чи втрачу я дані, якщо видалю застосунок?</h3>
+        <p>Так — усі дані сесій зберігаються локально на вашому пристрої. Якщо ви видалите застосунок, дані буде видалено, якщо у вас немає резервної копії iCloud або iTunes.</p>
+
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>MantraMitra &copy; 2026 Oleksii Kalentiev</p>
+      <div class="footer-links">
+        <a href="#privacy">Політика конфіденційності</a>
+        <a href="#support">Підтримка</a>
+        <a href="mailto:okalentiev@gmail.com">Контакт</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
